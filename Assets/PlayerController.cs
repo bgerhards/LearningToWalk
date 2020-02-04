@@ -24,31 +24,32 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveForwardAndBackward();
-        rotate();
+        MoveForwardAndBackward();
+        Rotate();
 
-        if (isAbleToJump())
-            jump();
+        if (IsAbleToJump())
+            Jump();
     }
 
-    void moveForwardAndBackward()
+    void MoveForwardAndBackward()
     {
         var movement = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         transform.Translate(0, 0, movement);
     }
 
-    void rotate()
+    void Rotate()
     {
         var rotation = Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime;
         transform.Rotate(0, rotation, 0);
     }
 
-    bool isAbleToJump()
+    bool IsAbleToJump()
     {
-        return Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.realtimeSinceStartup >= timeLastJumped + 1;
+        return Input.GetButtonDown("Jump") && isGrounded;
+        //&& Time.realtimeSinceStartup >= timeLastJumped + 1;
     }
 
-    void jump()
+    void Jump()
     {
         rb.AddForce(new Vector3(0, 2, 0) * 2, ForceMode.Impulse);
         isGrounded = false;
